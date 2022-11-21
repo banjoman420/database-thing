@@ -3,16 +3,17 @@ import os
 import sys 
 import pandas as pd 
 import openpyxl
-# import xlrd
+import xlrd
 import json
 import csv
 import numpy as np
+import openpyxl
 loop = True
 
 pd.set_option('display.max_rows', None)
 
 cols = [0,1,2,3]
-df = pd.read_excel("pokemonData.xlsx", usecols=cols)
+df = pd.read_excel("pokemonData.xlsx", usecols=cols,)
 faveList = []
 
 #load list
@@ -49,6 +50,7 @@ def saveFave(fileToSave):
 # # output = (df['Name'] == userinp.title()) 
 # print(df.loc[df['Name'] == userinp.title()].to_string(index=False))
 
+
 while loop:
   print(
     '''
@@ -58,7 +60,6 @@ while loop:
     4. Add data to favourites list
     5. Remove data from favourits list
     6. Display favourites list
-
     '''
   )
 
@@ -69,7 +70,7 @@ while loop:
     case "1":
       print(df.to_string(index=False))
     
-    #2. Search for spacific data
+    #2. Search for spacific type
     case "2":
       inputMon = input('what type of pokemon would you like?').title()
       def condSearch(poketype):
@@ -84,17 +85,18 @@ while loop:
     #4. Add data to favourites list
     case "4":
       userinp = input('what is the name of the pokemon you wish to save')
-      # output = (df['Name'] == userinp.title()) 
-      billy = (df.loc[df['Name'] == userinp.title()].to_csv(index=False,header=False)).strip()
-      print(billy)
-      faveList.append(billy)
+      name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('list'))
+      faveList.append(name_to_add)
       print(faveList)
+    
+    #5. Remove data from favourits list
+    case "5":
+      print('hello')
 
       
 
-    
-    case "5":
-      print("hello")
+
+
 
     case "6":
       print("hello")
