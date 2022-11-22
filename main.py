@@ -44,11 +44,23 @@ def saveFave(fileToSave):
 #   print(df.loc[filt].to_string(index=False))
 # condSearch(inputMon)
 
+# userinp = input('what is the name of the pokemon you wish to save')
+# name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('list'))
+# faveList.append(name_to_add)
+# print(faveList)
+
 
 # #pull singular values
 # userinp = input('what is the name of the pokemon you wish to save')
 # # output = (df['Name'] == userinp.title()) 
 # print(df.loc[df['Name'] == userinp.title()].to_string(index=False))
+
+def searchName(list, name):
+    for item in list:
+        if item["Name"] == name:
+            return faveList.index(item)
+
+    return -1
 
 
 while loop:
@@ -84,17 +96,17 @@ while loop:
     
     #4. Add data to favourites list
     case "4":
-      userinp = input('what is the name of the pokemon you wish to save')
-      name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('list'))
-      faveList.append(name_to_add)
+      convertToDict = (df.to_dict('records'))
+      billy = (next(item for item in convertToDict if item['Name'] == 'Froakie'))
+      faveList.append(billy)
       print(faveList)
     
     #5. Remove data from favourits list
     case "5":
-      print('hello')
-
-      
-
+      userinp = input('what is the name of the pokemon you wish to save')
+      name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('records'))
+      faveList.append(name_to_add)
+      print(faveList)
 
 
 
