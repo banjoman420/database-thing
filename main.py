@@ -14,22 +14,8 @@ pd.set_option('display.max_rows', None)
 
 cols = [0,1,2,3]
 df = pd.read_excel("pokemonData.xlsx", usecols=cols,)
+convertToDict = (df.to_dict('records'))
 faveList = []
-
-#load list
-def loadFave():
-  file = open("data.txt", "r")
-  data = json.load(file)
-  file.close()
-  return data
-
-#save list
-def saveFave(fileToSave):
-  file = open("data.txt", "w")
-  json.dump(fileToSave, file)
-  file.close()
-
-
 
 # def typeOfPokemon(peram1):
 #   output = df["Name"].where(df['Type 1' or 'Type 2' or 'Generation' or 'Legendary'] == peram1)
@@ -55,12 +41,6 @@ def saveFave(fileToSave):
 # # output = (df['Name'] == userinp.title()) 
 # print(df.loc[df['Name'] == userinp.title()].to_string(index=False))
 
-def searchName(list, name):
-    for item in list:
-        if item["Name"] == name:
-            return faveList.index(item)
-
-    return -1
 
 
 while loop:
@@ -92,19 +72,19 @@ while loop:
 
     #3. Sort the data 
     case "3":
-      print("hello")
+      print(convertToDict)
+
     
     #4. Add data to favourites list
     case "4":
-      convertToDict = (df.to_dict('records'))
       billy = (next(item for item in convertToDict if item['Name'] == 'Froakie'))
       faveList.append(billy)
-      print(faveList)
+      print(billy)
     
     #5. Remove data from favourits list
     case "5":
       userinp = input('what is the name of the pokemon you wish to save')
-      name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('records'))
+      name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('list'))
       faveList.append(name_to_add)
       print(faveList)
 
