@@ -17,11 +17,6 @@ df = pd.read_excel("pokemonData.xlsx", usecols=cols,)
 convertToDict = (df.to_dict('records'))
 faveList = []
 
-# def typeOfPokemon(peram1):
-#   output = df["Name"].where(df['Type 1' or 'Type 2' or 'Generation' or 'Legendary'] == peram1)
-#   print(output.dropna())
-# typeOfPokemon("Water")
-
 
 # #search function
 # inputMon = input('what type of pokemon would you like?').title()
@@ -72,24 +67,22 @@ while loop:
 
     #3. Sort the data 
     case "3":
-      print(convertToDict)
+      print('hello')
 
     
     #4. Add data to favourites list
     case "4":
-      billy = (next(item for item in convertToDict if item['Name'] == 'Froakie'))
-      faveList.append(billy)
-      print(billy)
+      nameOfMon = input('what is the name of the pokemon you wish to add to fave list')
+      find_name_to_add = (next(item for item in convertToDict if item['Name'] == nameOfMon.title()))
+      faveList.append(find_name_to_add)
+      print(find_name_to_add)
     
     #5. Remove data from favourits list
     case "5":
-      userinp = input('what is the name of the pokemon you wish to save')
-      name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('list'))
-      faveList.append(name_to_add)
-      print(faveList)
+      print('hello')
 
 
-
+    #display favList
     case "6":
       print("hello")
 
