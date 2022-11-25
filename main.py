@@ -1,19 +1,16 @@
 from operator import index
-import os 
-import sys 
 import pandas as pd 
 import openpyxl
 import xlrd
 import json
-import csv
 import numpy as np
 import openpyxl
 loop = True
 
 pd.set_option('display.max_rows', None)
 
-cols = [0,1,2,3]
-df = pd.read_excel("pokemonData.xlsx", usecols=cols,)
+cols = [0,1,2,4,3,6,8,10]
+df = pd.read_excel("pokemonData.xlsx", usecols=cols)
 convertToDict = (df.to_dict('records'))
 faveList = []
 
@@ -35,6 +32,22 @@ faveList = []
 # userinp = input('what is the name of the pokemon you wish to save')
 # # output = (df['Name'] == userinp.title()) 
 # print(df.loc[df['Name'] == userinp.title()].to_string(index=False))
+
+def selectionSort(anArray, whatToSearch):
+    for fill_slot in range(len(anArray)):
+        min_position = fill_slot
+
+        for post_fill in range(fill_slot +1, len(anArray)):
+            
+            if anArray[post_fill][whatToSearch] < anArray[min_position][whatToSearch]:
+                min_position = post_fill
+
+        anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
+
+def printCase3(searchBy):
+  selectionSort(copy_to_disp, searchBy)
+  for i in range(len(copy_to_disp)):
+    print(copy_to_disp[i])
 
 
 
@@ -67,8 +80,29 @@ while loop:
 
     #3. Sort the data 
     case "3":
-      print('hello')
+      copy_to_disp = (convertToDict.copy())
 
+      print(
+        '''
+        1. Name
+        2. Total Stat combination
+        3. HP
+        4. Attack
+        5. Sp. attack
+        '''
+      )
+      sortPick = input("what would u like to sort by")
+      match sortPick:
+        case "1":
+          printCase3('Name')
+        case "2":
+          printCase3('Total')
+        case "3":
+          printCase3('HP')
+        case "4":
+          printCase3('Attack')
+        case "5":
+          printCase3('Sp. Atk')
     
     #4. Add data to favourites list
     case "4":
@@ -84,7 +118,7 @@ while loop:
 
     #display favList
     case "6":
-      print("hello")
+      print(faveList)
 
 
 
