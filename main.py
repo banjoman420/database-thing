@@ -44,10 +44,15 @@ def selectionSort(anArray, whatToSearch):
 
         anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
 
+def printFor():
+    for item in faveList:
+        print(item["name"])
+
 def printCase3(searchBy):
   selectionSort(copy_to_disp, searchBy)
-  for i in range(len(copy_to_disp)):
-    print(copy_to_disp[i])
+  for item in range(len(copy_to_disp)):
+    print(copy_to_disp[item])
+
 
 
 
