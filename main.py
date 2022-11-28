@@ -34,27 +34,37 @@ faveList = []
 # print(df.loc[df['Name'] == userinp.title()].to_string(index=False))
 
 def selectionSort(anArray, whatToSearch):
-    for fill_slot in range(len(anArray)):
-        min_position = fill_slot
+  for fill_slot in range(len(anArray)):
+      min_position = fill_slot
 
-        for post_fill in range(fill_slot +1, len(anArray)):
-            
-            if anArray[post_fill][whatToSearch] < anArray[min_position][whatToSearch]:
-                min_position = post_fill
+      for post_fill in range(fill_slot +1, len(anArray)):
+          
+          if anArray[post_fill][whatToSearch] < anArray[min_position][whatToSearch]:
+              min_position = post_fill
 
-        anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
+      anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
+
+#search for name functon
+def searchName(list, name):
+  for item in list:
+      if item["Name"] == name:
+          return faveList.index(item)
+
+  return -1
+
+#print for loop with key values
+def printWithKey(inputUser):
+  for key, value in faveList[inputUser].items():
+      print(key, ":", value)
 
 def printFor():
-    for item in faveList:
-        print(item["name"])
+  for item in range(0, len(faveList)):
+      print(faveList[item])
 
 def printCase3(searchBy):
   selectionSort(copy_to_disp, searchBy)
   for item in range(len(copy_to_disp)):
     print(copy_to_disp[item])
-
-
-
 
 while loop:
   print(
@@ -114,16 +124,24 @@ while loop:
       nameOfMon = input('what is the name of the pokemon you wish to add to fave list')
       find_name_to_add = (next(item for item in convertToDict if item['Name'] == nameOfMon.title()))
       faveList.append(find_name_to_add)
-      print(find_name_to_add)
+      printFor()
     
     #5. Remove data from favourits list
     case "5":
-      print('hello')
+      input_for_del = input("what is the name of the pokemon you wish to remove").title()
+
+      search_for_del = searchName(faveList, input_for_del)
+
+      if search_for_del == -1:
+        print("pokemon doesnt exiat in list")
+      else:
+        faveList.pop(search_for_del)
+        printFor()
 
 
     #display favList
     case "6":
-      print(faveList)
+      printFor()
 
 
 
