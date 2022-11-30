@@ -1,18 +1,34 @@
+
+import json
 from operator import index
 import pandas as pd 
 import openpyxl
 import xlrd
-import json
 import numpy as np
 import openpyxl
 loop = True
 
 pd.set_option('display.max_rows', None)
 
-cols = [0,1,2,4,3,6,8,10]
+cols = [0,1,2,4,3,5,6,8,10]
 df = pd.read_excel("pokemonData.xlsx", usecols=cols)
 convertToDict = (df.to_dict('records'))
-faveList = []
+
+
+#loading info from .txt file
+def loadFaveList():
+  file = open("FaveList.txt", "r")
+  data = json.load(file)
+  file.close()
+  return data
+
+#save contacts
+def saveFaveList(fileToSave):
+  file = open("FaveList.txt", "w")
+  json.dump(fileToSave, file)
+  file.close()
+
+faveList = loadFaveList()
 
 
 # #search function
@@ -130,23 +146,21 @@ while loop:
     case "5":
       input_for_del = input("what is the name of the pokemon you wish to remove").title()
 
+      #search for name in list of dicts
       search_for_del = searchName(faveList, input_for_del)
 
+      #if name is not found 
       if search_for_del == -1:
         print("pokemon doesnt exiat in list")
+
+      #if name is found 
       else:
         faveList.pop(search_for_del)
         printFor()
-
 
     #display favList
     case "6":
       printFor()
 
-
-
-
-
-
-
-
+    case "7":
+      saveFaveList(faveList)
