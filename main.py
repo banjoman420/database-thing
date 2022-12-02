@@ -91,6 +91,7 @@ while loop:
     4. Add data to favourites list
     5. Remove data from favourits list
     6. Display favourites list
+    7. Save Data
     '''
   )
 
@@ -122,6 +123,7 @@ while loop:
         5. Sp. attack
         '''
       )
+      
       sortPick = input("what would u like to sort by")
       match sortPick:
         case "1":
