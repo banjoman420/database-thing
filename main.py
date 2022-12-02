@@ -1,9 +1,6 @@
 
 import json
-from operator import index
 import pandas as pd 
-import openpyxl
-import xlrd
 import numpy as np
 import openpyxl
 loop = True
