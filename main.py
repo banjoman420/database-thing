@@ -1,8 +1,6 @@
-
 import json
 import pandas as pd 
 import numpy as np
-import openpyxl
 loop = True
 
 pd.set_option('display.max_rows', None)
@@ -27,25 +25,6 @@ def saveFaveList(fileToSave):
 
 faveList = loadFaveList()
 
-
-# #search function
-# inputMon = input('what type of pokemon would you like?').title()
-# def condSearch(poketype):
-#   filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
-#   print(df.loc[filt].to_string(index=False))
-# condSearch(inputMon)
-
-# userinp = input('what is the name of the pokemon you wish to save')
-# name_to_add = (df.loc[df['Name'] == userinp.title()].to_dict('list'))
-# faveList.append(name_to_add)
-# print(faveList)
-
-
-# #pull singular values
-# userinp = input('what is the name of the pokemon you wish to save')
-# # output = (df['Name'] == userinp.title()) 
-# print(df.loc[df['Name'] == userinp.title()].to_string(index=False))
-
 def selectionSort(anArray, whatToSearch):
   for fill_slot in range(len(anArray)):
       min_position = fill_slot
@@ -58,10 +37,10 @@ def selectionSort(anArray, whatToSearch):
       anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
 
 #search for name functon
-def searchName(list, name):
+def searchName(list, name, ):
   for item in list:
       if item["Name"] == name:
-          return faveList.index(item)
+          return list.index(item)
 
   return -1
 
@@ -121,6 +100,7 @@ while loop:
         '''
       )
       
+      #case statments for sorting information 
       sortPick = input("what would u like to sort by")
       match sortPick:
         case "1":
@@ -136,10 +116,17 @@ while loop:
     
     #4. Add data to favourites list
     case "4":
-      nameOfMon = input('what is the name of the pokemon you wish to add to fave list')
-      find_name_to_add = (next(item for item in convertToDict if item['Name'] == nameOfMon.title()))
-      faveList.append(find_name_to_add)
-      printFor()
+      nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
+      # find_name_to_add = (next(item for item in convertToDict if item['Name'] == nameOfMon.title()))
+      # faveList.append(find_name_to_add)
+      # printFor()
+
+      find_name = searchName(convertToDict, nameOfMon)
+
+      if searchName == -1:
+        print("pokemon doesnt exist")
+      else:
+        print(convertToDict[find_name])
     
     #5. Remove data from favourits list
     case "5":
@@ -161,5 +148,6 @@ while loop:
     case "6":
       printFor()
 
+    #save data
     case "7":
       saveFaveList(faveList)
