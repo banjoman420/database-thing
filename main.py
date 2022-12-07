@@ -37,7 +37,7 @@ def selectionSort(anArray, whatToSearch):
       anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
 
 #search for name functon
-def searchName(list, name, ):
+def searchName(list, name,):
   for item in list:
       if item["Name"] == name:
           return list.index(item)
@@ -57,6 +57,24 @@ def printCase3(searchBy):
   selectionSort(copy_to_disp, searchBy)
   for item in range(len(copy_to_disp)):
     print(copy_to_disp[item])
+
+def userSingUp():
+  username = input("what would you like as a username")
+  password = input("what would you like as a password")
+
+  return{
+    "username": username,
+    "password": password,
+    "faves": []
+  }
+  
+user_info_to_append = userSingUp()
+
+faveList.append(user_info_to_append)
+print(faveList)
+
+  
+
 
 while loop:
   print(
@@ -117,15 +135,13 @@ while loop:
     #4. Add data to favourites list
     case "4":
       nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
-      # find_name_to_add = (next(item for item in convertToDict if item['Name'] == nameOfMon.title()))
-      # faveList.append(find_name_to_add)
-      # printFor()
-
       find_name = searchName(convertToDict, nameOfMon)
 
+      #if statments for if found or not found
       if searchName == -1:
         print("pokemon doesnt exist")
       else:
+        faveList[user_creds].append(convertToDict[find_name])
         print(convertToDict[find_name])
     
     #5. Remove data from favourits list
