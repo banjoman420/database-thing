@@ -140,7 +140,7 @@ while loop:
         print("pokemon doesnt exist")
       else:
         for i in range(len(faveList)):
-          if faveList[i]['username'] == user_info["username"]:
+          if faveList[i]['username'] == user_info["username"] and faveList[i]['password'] == user_info['password']:
             faveList.append(convertToDict[find_name])
             print(i)
 
