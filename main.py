@@ -58,24 +58,22 @@ def printCase3(searchBy):
   for item in range(len(copy_to_disp)):
     print(copy_to_disp[item])
 
-def userSingUp():
+def userSignUp():
   username = input("what would you like as a username")
   password = input("what would you like as a password")
 
-  return{
+  dict = {
     "username": username,
     "password": password,
     "faves": []
   }
+  return dict
   
-user_info_to_append = userSingUp()
-
-faveList.append(user_info_to_append)
+user_info = userSignUp()
+faveList.append(user_info)
 print(faveList)
 
   
-
-
 while loop:
   print(
     '''
@@ -141,8 +139,19 @@ while loop:
       if searchName == -1:
         print("pokemon doesnt exist")
       else:
-        faveList[user_creds].append(convertToDict[find_name])
-        print(convertToDict[find_name])
+        for i in range(len(faveList)):
+          if faveList[i]['username'] == user_info["username"]:
+            faveList.append(convertToDict[find_name])
+            print(i)
+
+
+
+
+
+
+
+        # faveList.append(convertToDict[find_name])
+        # print(convertToDict[find_name])
     
     #5. Remove data from favourits list
     case "5":
