@@ -12,14 +12,14 @@ convertToDict = (df.to_dict('records'))
 
 #loading info from .txt file
 def loadFaveList():
-  file = open("FaveList.txt", "r")
+  file = open("user_list.txt", "r")
   data = json.load(file)
   file.close()
   return data
 
 #save contacts
 def saveFaveList(fileToSave):
-  file = open("FaveList.txt", "w")
+  file = open("user_list.txt", "w")
   json.dump(fileToSave, file)
   file.close()
 
@@ -37,9 +37,9 @@ def selectionSort(anArray, whatToSearch):
       anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
 
 #search for name functon
-def searchName(list, name,):
+def searchName(list, name, inItem):
   for item in list:
-      if item["Name"] == name:
+      if item[inItem] == name:
           return list.index(item)
 
   return -1
@@ -133,14 +133,14 @@ while loop:
     #4. Add data to favourites list
     case "4":
       nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
-      find_name = searchName(convertToDict, nameOfMon)
+      find_name = searchName(convertToDict, nameOfMon, 'Name')
 
       #if statments for if found or not found
       if searchName == -1:
         print("pokemon doesnt exist")
       else:
         for d in faveList:
-          if d['username']  == user_info['username']:
+          if d['username']  == user_info['username'] and d['password']  == user_info['password']:
             d['faves'].append(convertToDict[find_name])
 
         # faveList.append(convertToDict[find_name])
@@ -151,7 +151,7 @@ while loop:
       input_for_del = input("what is the name of the pokemon you wish to remove").title()
 
       #search for name in list of dicts
-      search_for_del = searchName(faveList, input_for_del)
+      search_for_del = searchName(user_info["faves"], input_for_del, 'Name')
 
       #if name is not found 
       if search_for_del == -1:
@@ -159,7 +159,7 @@ while loop:
 
       #if name is found 
       else:
-        faveList.pop(search_for_del)
+        user_info['faves'].pop(search_for_del)
         printFor()
 
     #display favList
