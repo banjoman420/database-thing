@@ -75,19 +75,15 @@ def user_account():
 
     #check if the username already exists in the user_list.txt file
 
-    for user in faveList:
-      # if the username already exists tell the user to input a new one
-      if user[faveList] == username:
-        print("username is already in use, please choose a new one")
+    cool = searchName(faveList, username, 'username')
 
-      #if the username doesnt exist return all the data the user inputed
-      else:
-        dict = {
-          "username": username,
-          "password": password,
-          "faves": []
-        }
-        return dict
+    if searchName == -1:
+      dict = {
+        "username": username,
+        "password": password,
+        "faves": []
+      }
+      return dict
 
   #login
   elif accauntPick == "2":
