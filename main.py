@@ -23,7 +23,7 @@ def saveFaveList(fileToSave):
   json.dump(fileToSave, file)
   file.close()
 
-faveList = []
+faveList = [{'username': 'cool', 'password': 'dude', 'faves': []}]
 
 def selectionSort(anArray, whatToSearch):
   for fill_slot in range(len(anArray)):
@@ -65,7 +65,7 @@ def user_account():
   2. login 
   ''')
 
-  accauntPick = input("input the number of the option you want")
+  accauntPick = input("input the number of the option you want (1 or 2)")
 
   #sign up
   if accauntPick == "1":
@@ -74,32 +74,34 @@ def user_account():
     password = input("what would you like as a password")
 
     #check if the username already exists in the user_list.txt file
+    loof_for_username_sign_up= searchName(faveList, username, 'username')
 
-    cool = searchName(faveList, username, 'username')
-
-    if searchName == -1:
+    if loof_for_username_sign_up == -1:
       dict = {
         "username": username,
         "password": password,
         "faves": []
       }
       return dict
+    else:
+      print('username is already in use, please pick a new one')
 
   #login
   elif accauntPick == "2":
     username = input('what is your username')
     password = input('what is your password')
 
-    dict = {
-      "username": username,
-      "password": password,
-      'faves': []
-    }
-    return dict
+    for i in range(len(faveList)):
+      if faveList[i]['username'] == username and faveList[i]['password'] == password:
+        print('login complete')
 
+        dict = {
+          "username": username,
+          "password": password,
+          'faves': []
+        }
+        return dict
 
-
-  
 user_info = user_account()
 faveList.append(user_info)
 print(faveList)
@@ -173,9 +175,6 @@ while loop:
         for d in faveList:
           if d['username']  == user_info['username'] and d['password']  == user_info['password']:
             d['faves'].append(convertToDict[find_name])
-
-        # faveList.append(convertToDict[find_name])
-        # print(convertToDict[find_name])
     
     #5. Remove data from favourits list
     case "5":
@@ -187,18 +186,6 @@ while loop:
             if input_for_del in faves.values():
               d['faves'].pop(i)
       print(faveList)
-
-      # #search for name in list of dicts
-      # search_for_del = searchName(user_info["faves"], input_for_del, 'Name')
-
-      # #if name is not found 
-      # if search_for_del == -1:
-      #   print("pokemon doesnt exiat in list")
-
-      # #if name is found 
-      # else:
-      #   user_info['faves'].pop(search_for_del)
-      #   printFor()
 
     #display favList
     case "6":
