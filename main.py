@@ -1,7 +1,6 @@
 import json
 import pandas as pd 
 import numpy as np
-loop = True
 
 pd.set_option('display.max_rows', None)
 
@@ -11,19 +10,20 @@ convertToDict = (df.to_dict('records'))
 
 
 #loading info from .txt file
-def loadFaveList():
+def loadFaves():
   file = open("user_list.txt", "r")
   data = json.load(file)
   file.close()
   return data
 
 #save contacts
-def saveFaveList(fileToSave):
+def saveFaves(fileToSave):
   file = open("user_list.txt", "w")
   json.dump(fileToSave, file)
   file.close()
 
-faveList = [{'username': 'cool', 'password': 'dude', 'faves': []}]
+
+faveList = []
 
 def selectionSort(anArray, whatToSearch):
   for fill_slot in range(len(anArray)):
@@ -44,70 +44,73 @@ def searchName(list, name, inItem):
 
   return -1
 
-#print for loop with key values
-def printWithKey(inputUser):
-  for key, value in faveList[inputUser].items():
-      print(key, ":", value)
-
-def printFor():
-  for item in range(0, len(faveList)):
-      print(faveList[item])
-
 def printCase3(searchBy):
   selectionSort(copy_to_disp, searchBy)
   for item in range(len(copy_to_disp)):
     print(copy_to_disp[item])
 
 def user_account():
+  loop_creds = True
+  while loop_creds:
+    print('''
+    1. sign up
+    2. login 
+    ''')
 
-  print('''
-  1. sign up
-  2. login 
-  ''')
+    accauntPick = input("input the number of the option you want (1 or 2)")
 
-  accauntPick = input("input the number of the option you want (1 or 2)")
+    #sign up
+    if accauntPick == "1":
+      #ask user for username and password
+      username = input("what would you like as a username")
+      password = input("what would you like as a password")
 
-  #sign up
-  if accauntPick == "1":
-    #ask user for username and password
-    username = input("what would you like as a username")
-    password = input("what would you like as a password")
+      #check if the username already exists in the user_list.txt file
+      loof_for_username_sign_up= searchName(faveList, username, 'username')
 
-    #check if the username already exists in the user_list.txt file
-    loof_for_username_sign_up= searchName(faveList, username, 'username')
-
-    if loof_for_username_sign_up == -1:
-      dict = {
-        "username": username,
-        "password": password,
-        "faves": []
-      }
-      return dict
-    else:
-      print('username is already in use, please pick a new one')
-
-  #login
-  elif accauntPick == "2":
-    username = input('what is your username')
-    password = input('what is your password')
-
-    for i in range(len(faveList)):
-      if faveList[i]['username'] == username and faveList[i]['password'] == password:
-        print('login complete')
-
+      if loof_for_username_sign_up == -1:
         dict = {
           "username": username,
           "password": password,
-          'faves': []
+          "faves": []
         }
+        faveList.append(dict)
+        loop_creds = False
         return dict
+      else:
+        print('username is already in use, please pick a new one')
+
+    #login
+    elif accauntPick == "2":
+      username = input('what is your username')
+      password = input('what is your password')
+
+      for i in range(len(faveList)):
+        if faveList[i]['username'] == username and faveList[i]['password'] == password:
+          print('login complete')
+
+          dict = {
+            "username": username,
+            "password": password,
+            'faves': []
+          }
+          return dict
+          loop_creds = False
+      else:
+        print('incorrect username or password, try again')
+    
+    else:
+      print('enter a correct number (1 or 2)')
 
 user_info = user_account()
-faveList.append(user_info)
-print(faveList)
 
-  
-while loop:
+index_of_user = searchName(faveList, user_info['username'], 'username')
+
+def print_fave():
+  print(faveList[index_of_user])
+
+loop_main = True
+while loop_main:
   print(
     '''
     1. Display all data
@@ -117,6 +120,7 @@ while loop:
     5. Remove data from favourits list
     6. Display favourites list
     7. Save Data
+    8. Exit 
     '''
   )
 
@@ -169,12 +173,13 @@ while loop:
       find_name = searchName(convertToDict, nameOfMon, 'Name')
 
       #if statments for if found or not found
-      if searchName == -1:
+      if find_name == -1:
         print("pokemon doesnt exist")
       else:
         for d in faveList:
           if d['username']  == user_info['username'] and d['password']  == user_info['password']:
             d['faves'].append(convertToDict[find_name])
+      print_fave()
     
     #5. Remove data from favourits list
     case "5":
@@ -185,12 +190,17 @@ while loop:
           for i, faves in enumerate(d['faves']):
             if input_for_del in faves.values():
               d['faves'].pop(i)
-      print(faveList)
+      print_fave()
 
     #display favList
     case "6":
-      printFor()
+      print_fave()
 
     #save data
     case "7":
-      saveFaveList(faveList)   
+      saveFaves(faveList)   
+
+    #exit program
+    case "8":
+      print("program end")
+      loop_main = False
