@@ -23,7 +23,7 @@ def saveFaves(fileToSave):
   file.close()
 
 
-faveList = []
+faveList = loadFaves()
 
 def selectionSort(anArray, whatToSearch):
   for fill_slot in range(len(anArray)):
@@ -103,11 +103,15 @@ def user_account():
       print('enter a correct number (1 or 2)')
 
 user_info = user_account()
-
 index_of_user = searchName(faveList, user_info['username'], 'username')
 
 def print_fave():
-  print(faveList[index_of_user])
+  for i in range(len(faveList[index_of_user]['faves'])):
+    print(faveList[index_of_user]['faves'][i])
+
+def condSearch(poketype):
+  filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
+  print(df.loc[filt].to_string(index=False))
 
 loop_main = True
 while loop_main:
@@ -133,15 +137,11 @@ while loop_main:
     
     #2. Search for spacific type
     case "2":
-      inputMon = input('what type of pokemon would you like?').title()
-      def condSearch(poketype):
-        filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
-        print(df.loc[filt].to_string(index=False))
+      inputMon = input('what type is the pokemon you like to display?').title()
       condSearch(inputMon)
 
     #3. Sort the data 
     case "3":
-      copy_to_disp = (convertToDict.copy())
 
       print(
         '''
@@ -170,7 +170,7 @@ while loop_main:
     #4. Add data to favourites list
     case "4":
       nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
-      find_name = searchName(convertToDict, nameOfMon, 'Name')
+      find_name = searchName(convertToDict.copy(), nameOfMon, 'Name')
 
       #if statments for if found or not found
       if find_name == -1:

@@ -1,0 +1,4 @@
+Data files that need to be installed for program to work 
+1. Pandas
+2. numpy 
+3. json 
