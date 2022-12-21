@@ -113,6 +113,11 @@ def condSearch(poketype):
   filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
   print(df.loc[filt].to_string(index=False))
 
+
+def printWithKey():
+    for key, value in faveList[index_of_user].items():
+        print(key, ":", value)
+
 loop_main = True
 while loop_main:
   print(
@@ -142,6 +147,7 @@ while loop_main:
 
     #3. Sort the data 
     case "3":
+      copy_to_disp = convertToDict.copy()
 
       print(
         '''
@@ -170,7 +176,7 @@ while loop_main:
     #4. Add data to favourites list
     case "4":
       nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
-      find_name = searchName(convertToDict.copy(), nameOfMon, 'Name')
+      find_name = searchName(convertToDict, nameOfMon, 'Name')
 
       #if statments for if found or not found
       if find_name == -1:
@@ -185,11 +191,16 @@ while loop_main:
     case "5":
       input_for_del = input("what is the name of the pokemon you wish to remove").title()
 
-      for d in faveList:
-        if d['username'] == user_info['username'] and d['password'] == user_info['password']:
-          for i, faves in enumerate(d['faves']):
-            if input_for_del in faves.values():
-              d['faves'].pop(i)
+      # for d in faveList:
+      #   if d['username'] == user_info['username'] and d['password'] == user_info['password']:
+      #     for i, faves in enumerate(d['faves']):
+      #       if input_for_del in faves.values():
+      #         d['faves'].pop(i)
+      # print_fave()
+
+      for i, faves in enumerate(faveList[index_of_user]['faves']):
+        if input_for_del in faves.values():
+          faveList[index_of_user]['faves'].pop(i)
       print_fave()
 
     #display favList
