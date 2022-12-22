@@ -92,7 +92,6 @@ def user_account():
           dict = {
             "username": username,
             "password": password,
-            'faves': []
           }
           return dict
           loop_creds = False
