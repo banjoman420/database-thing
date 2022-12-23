@@ -22,9 +22,9 @@ def saveFaves(fileToSave):
   json.dump(fileToSave, file)
   file.close()
 
-
 faveList = loadFaves()
 
+#selection sort function that will sort the big dictionary
 def selectionSort(anArray, whatToSearch):
   for fill_slot in range(len(anArray)):
       min_position = fill_slot
@@ -102,12 +102,15 @@ def user_account():
       print('enter a correct number (1 or 2)')
 
 user_info = user_account()
+#get index of user to be able to use in other functions 
 index_of_user = searchName(faveList, user_info['username'], 'username')
 
+#print faveList
 def print_fave():
   for i in range(len(faveList[index_of_user]['faves'])):
     print(faveList[index_of_user]['faves'][i])
 
+#search using pandas
 def condSearch(poketype):
   filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
   print(df.loc[filt].to_string(index=False))
@@ -136,13 +139,13 @@ def sortDicts():
       printCase3('Attack')
     case "5":
       printCase3('Sp. Atk')
-
+#remove info from 'faves' 
 def remove_from_faves(input_for_del):
   for i, faves in enumerate(faveList[index_of_user]['faves']):
     if input_for_del in faves.values():
       faveList[index_of_user]['faves'].pop(i)
 
-
+#main loop
 loop_main = True
 while loop_main:
   print(
@@ -163,32 +166,37 @@ while loop_main:
   match numPick:
     #1. Display all data
     case "1":
+
+      #use pandas to convert to string and print out (converted to string so the index can be set to false, this makes it so the index doesnt print out with the main information)
       print(df.to_string(index=False))
     
     #2. Search for spacific type
     case "2":
+      #gather user input
       inputMon = input('what type is the pokemon you like to display?').title()
+
+      #set a condition to search by and search
       condSearch(inputMon)
 
     #3. Sort the data 
     case "3":
+      #match statments that sort the data
       sortDicts()
     
     #4. Add data to favourites list
     case "4":
+      #gain user input
       nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
+
+      #use the searchName() funtion to check if the user input exists in the dictionary and gather the index of the intended pokemon
       find_name = searchName(convertToDict, nameOfMon, 'Name')
 
       #if statments for if found or not found
       if find_name == -1:
         print("pokemon doesnt exist")
       else:
+        #append info
         faveList[index_of_user]['faves'].append(convertToDict[find_name])
-
-
-      #   for d in faveList:
-      #     if d['username']  == user_info['username'] and d['password']  == user_info['password']:
-      #       d['faves'].append(convertToDict[find_name])
       print_fave()
     
     #5. Remove data from favourits list
@@ -206,9 +214,10 @@ while loop_main:
 
     #save data
     case "7":
+      print('info saved')
       saveFaves(faveList)   
 
     #exit program
     case "8":
-      print("program end")
+      print("PROGRAM END")
       loop_main = False
