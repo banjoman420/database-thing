@@ -45,9 +45,9 @@ def searchName(list, name, inItem):
   return -1
 
 def printCase3(searchBy):
-  selectionSort(copy_to_disp, searchBy)
-  for item in range(len(copy_to_disp)):
-    print(copy_to_disp[item])
+  selectionSort(convertToDict, searchBy)
+  for item in range(len(convertToDict)):
+    print(convertToDict[item])
 
 def user_account():
   loop_creds = True
@@ -91,7 +91,7 @@ def user_account():
 
           dict = {
             "username": username,
-            "password": password,
+            "password": password
           }
           return dict
           loop_creds = False
@@ -112,10 +112,36 @@ def condSearch(poketype):
   filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
   print(df.loc[filt].to_string(index=False))
 
+def sortDicts():
+  print(
+    '''
+    1. Name (A-z)
+    2. Total Stat combination (Lowest to Highest)
+    3. HP (Lowest to Highest)
+    4. Attack (Lowest to Highest)
+    5. Sp. attack (Lowest to Highest)
+    '''
+  )
 
-def printWithKey():
-    for key, value in faveList[index_of_user].items():
-        print(key, ":", value)
+  #case statments for sorting information 
+  sortPick = input("what would u like to sort by")
+  match sortPick:
+    case "1":
+      printCase3('Name')
+    case "2":
+      printCase3('Total')
+    case "3":
+      printCase3('HP')
+    case "4":
+      printCase3('Attack')
+    case "5":
+      printCase3('Sp. Atk')
+
+def remove_from_faves(input_for_del):
+  for i, faves in enumerate(faveList[index_of_user]['faves']):
+    if input_for_del in faves.values():
+      faveList[index_of_user]['faves'].pop(i)
+
 
 loop_main = True
 while loop_main:
@@ -146,31 +172,7 @@ while loop_main:
 
     #3. Sort the data 
     case "3":
-      copy_to_disp = convertToDict.copy()
-
-      print(
-        '''
-        1. Name
-        2. Total Stat combination
-        3. HP
-        4. Attack
-        5. Sp. attack
-        '''
-      )
-      
-      #case statments for sorting information 
-      sortPick = input("what would u like to sort by")
-      match sortPick:
-        case "1":
-          printCase3('Name')
-        case "2":
-          printCase3('Total')
-        case "3":
-          printCase3('HP')
-        case "4":
-          printCase3('Attack')
-        case "5":
-          printCase3('Sp. Atk')
+      sortDicts()
     
     #4. Add data to favourites list
     case "4":
@@ -181,25 +183,21 @@ while loop_main:
       if find_name == -1:
         print("pokemon doesnt exist")
       else:
-        for d in faveList:
-          if d['username']  == user_info['username'] and d['password']  == user_info['password']:
-            d['faves'].append(convertToDict[find_name])
+        faveList[index_of_user]['faves'].append(convertToDict[find_name])
+
+
+      #   for d in faveList:
+      #     if d['username']  == user_info['username'] and d['password']  == user_info['password']:
+      #       d['faves'].append(convertToDict[find_name])
       print_fave()
     
     #5. Remove data from favourits list
     case "5":
+      #user injput for what to remove
       input_for_del = input("what is the name of the pokemon you wish to remove").title()
 
-      # for d in faveList:
-      #   if d['username'] == user_info['username'] and d['password'] == user_info['password']:
-      #     for i, faves in enumerate(d['faves']):
-      #       if input_for_del in faves.values():
-      #         d['faves'].pop(i)
-      # print_fave()
-
-      for i, faves in enumerate(faveList[index_of_user]['faves']):
-        if input_for_del in faves.values():
-          faveList[index_of_user]['faves'].pop(i)
+      #call function that removes intended pokemon
+      remove_from_faves(input_for_del)
       print_fave()
 
     #display favList
