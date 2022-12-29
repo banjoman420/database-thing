@@ -1,0 +1,12 @@
+# for i in range(len(faveList)):
+#   if faveList[i]['username'] == username and faveList[i]['password'] == password:
+#     print('login complete')
+
+#     dict = {
+#       "username": username,
+#       "password": password
+#     }
+# #     return dict
+#     loop_creds = False
+# else:
+#   print('incorrect username or password, try again')

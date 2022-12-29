@@ -62,46 +62,59 @@ def user_account():
     #sign up
     if accauntPick == "1":
       #ask user for username and password
-      username = input("what would you like as a username")
-      password = input("what would you like as a password")
+      # username = input("what would you like as a username")
+      # password = input("what would you like as a password")
+
+      username, password = get_info()
 
       #check if the username already exists in the user_list.txt file
-      loof_for_username_sign_up= searchName(faveList, username, 'username')
+      look_for_username_sign_up= searchName(faveList, username, 'username')
 
-      if loof_for_username_sign_up == -1:
+      if look_for_username_sign_up == -1:
         dict = {
           "username": username,
           "password": password,
           "faves": []
         }
         faveList.append(dict)
-        loop_creds = False
         return dict
+        loop_creds = False
+
       else:
         print('username is already in use, please pick a new one')
 
     #login
     elif accauntPick == "2":
-      username = input('what is your username')
-      password = input('what is your password')
 
-      for i in range(len(faveList)):
-        if faveList[i]['username'] == username and faveList[i]['password'] == password:
-          print('login complete')
+      #get username and password from user
+      username, password = get_info()
 
-          dict = {
-            "username": username,
-            "password": password
-          }
-          return dict
-          loop_creds = False
-      else:
-        print('incorrect username or password, try again')
+      #run the login function that will check if the username and password exist in the big data and then return it
+      info = login_func(username, password, faveList)
+
+      print('login complete')
+      return info
+      loop_creds = False
     
     else:
       print('enter a correct number (1 or 2)')
 
+def get_info():
+  username = input('what is your username')
+  password = input('what is your password')
+  return username, password
+
+def login_func(username, password, list):
+  for i in range(len(list)):
+    if list[i]['username'] == username and list[i]['password'] == password:
+      dict = {
+        "username": username,
+        "password": password
+      }
+      return dict
+
 user_info = user_account()
+
 #get index of user to be able to use in other functions 
 index_of_user = searchName(faveList, user_info['username'], 'username')
 
@@ -139,11 +152,24 @@ def sortDicts():
       printCase3('Attack')
     case "5":
       printCase3('Sp. Atk')
+
 #remove info from 'faves' 
 def remove_from_faves(input_for_del):
   for i, faves in enumerate(faveList[index_of_user]['faves']):
     if input_for_del in faves.values():
       faveList[index_of_user]['faves'].pop(i)
+    else:
+      print('Pokemon doesnt exist in list')
+
+def add_data(does_exist, check_dub):
+  #if statments for if found or not found
+  if does_exist == -1:
+    print("pokemon doesnt exist")
+  elif check_dub != -1:
+    print('pokemon already exists in favelist')
+  else:
+    #append info
+    faveList[index_of_user]['faves'].append(convertToDict[does_exist])
 
 #main loop
 loop_main = True
@@ -191,12 +217,12 @@ while loop_main:
       #use the searchName() funtion to check if the user input exists in the dictionary and gather the index of the intended pokemon
       find_name = searchName(convertToDict, nameOfMon, 'Name')
 
-      #if statments for if found or not found
-      if find_name == -1:
-        print("pokemon doesnt exist")
-      else:
-        #append info
-        faveList[index_of_user]['faves'].append(convertToDict[find_name])
+      #checks for duplicate values in users faveList
+      check_dupe = searchName(faveList[index_of_user]['faves'],nameOfMon,'Name')
+
+      #use find_name and check_dupe to make sure the input is an actual pokemon and that it isnt a duplicate
+      add_data(find_name, check_dupe)
+
       print_fave()
     
     #5. Remove data from favourits list
