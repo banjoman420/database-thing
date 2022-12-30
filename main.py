@@ -62,24 +62,15 @@ def user_account():
     #sign up
     if accauntPick == "1":
       #ask user for username and password
-      # username = input("what would you like as a username")
-      # password = input("what would you like as a password")
-
       username, password = get_info()
 
-      #check if the username already exists in the user_list.txt file
+      # check if the username already exists in the user_list.txt file
       look_for_username_sign_up= searchName(faveList, username, 'username')
 
       if look_for_username_sign_up == -1:
-        dict = {
-          "username": username,
-          "password": password,
-          "faves": []
-        }
-        faveList.append(dict)
-        return dict
+        info = signup_func(username, password, faveList)
+        return info
         loop_creds = False
-
       else:
         print('username is already in use, please pick a new one')
 
@@ -104,6 +95,15 @@ def get_info():
   password = input('what is your password')
   return username, password
 
+def signup_func(username, password, list):
+  dict = {
+    "username": username,
+    "password": password,
+    "faves": []
+  }
+  list.append(dict)
+  return dict
+
 def login_func(username, password, list):
   for i in range(len(list)):
     if list[i]['username'] == username and list[i]['password'] == password:
@@ -116,7 +116,14 @@ def login_func(username, password, list):
 user_info = user_account()
 
 #get index of user to be able to use in other functions 
-index_of_user = searchName(faveList, user_info['username'], 'username')
+def look_index():
+  #get index of username since its unique
+  check_user = searchName(faveList, user_info['username'], 'username')
+  #check if that username has the password that the user inputed
+  if faveList[check_user]['password'] == user_info['password']:
+    return check_user
+
+index_of_user = look_index()
 
 #print faveList
 def print_fave():
