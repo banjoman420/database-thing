@@ -220,8 +220,6 @@ def main():
 
         #use find_name and check_dupe to make sure the input is an actual pokemon and that it isnt a duplicate
         add_data(find_name, check_dupe)
-
-        print_fave()
       
       #5. Remove data from favourits list
       case "5":
@@ -230,7 +228,6 @@ def main():
 
         #call function that removes intended pokemon
         remove_from_faves(input_for_del)
-        print_fave()
 
       #display favList
       case "6":
@@ -239,8 +236,8 @@ def main():
       #save data
       case "7":
         print('info saved')
-        saveFaves(faveList)   
-
+        saveFaves(faveList)  
+         
       #exit program
       case "8":
         print("PROGRAM END")
