@@ -8,7 +8,6 @@ cols = [0,1,2,4,3,5,6,8,10]
 df = pd.read_excel("pokemonData.xlsx", usecols=cols)
 convertToDict = (df.to_dict('records'))
 
-
 #loading info from .txt file
 def loadFaves():
   file = open("user_list.txt", "r")
@@ -25,16 +24,16 @@ def saveFaves(fileToSave):
 faveList = loadFaves()
 
 #selection sort function that will sort the big dictionary
-def selectionSort(anArray, whatToSearch):
-  for fill_slot in range(len(anArray)):
-      min_position = fill_slot
+# def selectionSort(anArray, whatToSearch):
+#   for fill_slot in range(len(anArray)):
+#       min_position = fill_slot
 
-      for post_fill in range(fill_slot +1, len(anArray)):
+#       for post_fill in range(fill_slot +1, len(anArray)):
           
-          if anArray[post_fill][whatToSearch] < anArray[min_position][whatToSearch]:
-              min_position = post_fill
+#           if anArray[post_fill][whatToSearch] < anArray[min_position][whatToSearch]:
+#               min_position = post_fill
 
-      anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
+#       anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
 
 #search for name functon
 def searchName(list, name, inItem):
@@ -44,10 +43,10 @@ def searchName(list, name, inItem):
 
   return -1
 
-def printCase3(searchBy):
-  selectionSort(convertToDict, searchBy)
-  for item in range(len(convertToDict)):
-    print(convertToDict[item])
+# def printCase3(searchBy, ascending=True):
+#   selectionSort(convertToDict, searchBy, ascending=True)
+#   for item in range(len(convertToDict)):
+#     print(convertToDict[item])
 
 def user_account():
   loop_creds = True
@@ -76,7 +75,6 @@ def user_account():
 
     #login
     elif accauntPick == "2":
-
       #get username and password from user
       username, password = get_info()
 
@@ -113,7 +111,7 @@ def login_func(username, password, list):
       }
       return dict
 
-user_info = user_account()
+# user_info = user_account()
 
 #get index of user to be able to use in other functions 
 def look_index():
@@ -123,7 +121,7 @@ def look_index():
   if faveList[check_user]['password'] == user_info['password']:
     return check_user
 
-index_of_user = look_index()
+# index_of_user = look_index()
 
 #print faveList
 def print_fave():
@@ -135,14 +133,49 @@ def condSearch(poketype):
   filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
   print(df.loc[filt].to_string(index=False))
 
+def selectionSort(arr, key, ascending=True):
+
+    #Set the comparator function based on the value of ascending
+    #comparator is used to determain decending or acending
+    #lambda function is a small function in Python that is often used as a shorthand way of defining functions that are used only once
+    # if ascending:
+    #     # If ascending is True, set the comparator to return True if x is less than y
+    #     comparator = lambda x, y: x < y
+    # else:
+    #     # If ascending is False, set the comparator to return True if x is greater than y
+    #     comparator = lambda x, y: x > y
+    def comparator(x, y):
+      return x < y if ascending else x > y
+
+    for fill_slot in range(len(arr)):
+        # Set minimum position to current fill_slot
+        min_position = fill_slot
+        # Loop through list start at the element after the current fill_slot
+        for post_fill in range(fill_slot + 1, len(arr)):
+            # If the element at post_fill is less than (or greater than if ascending is False) the element at min_position, set min_position to post_fill
+            if comparator(arr[post_fill][key], arr[min_position][key]):
+                min_position = post_fill
+        # Swap the element at min_position with the element at fill_slot
+        arr[min_position], arr[fill_slot] = arr[fill_slot], arr[min_position]
+
+def printCase3(searchBy, yes_or_no):
+  selectionSort(convertToDict, searchBy, yes_or_no)
+  for item in range(len(convertToDict)):
+    print(convertToDict[item])
+
 def sortDicts():
   print(
     '''
-    1. Name (A-z)
-    2. Total Stat combination (Lowest to Highest)
-    3. HP (Lowest to Highest)
-    4. Attack (Lowest to Highest)
-    5. Sp. attack (Lowest to Highest)
+    1. Name (A-Z)
+    2. Name (Z-A)
+    3. Total stats (Lowest to Highest)
+    4. Total stats (Highest to Lowest)
+    5. HP (Lowest to Highest)
+    6. HP (Highest to Lowest)
+    7. Attack (Lowest to Highest)
+    8. Attack (Highest to Lowest)
+    9. Sp. Attack (Lowest to Highest)
+    10. Sp. Attack (Highest to Lowest)
     '''
   )
 
@@ -150,15 +183,25 @@ def sortDicts():
   sortPick = input("what would u like to sort by")
   match sortPick:
     case "1":
-      printCase3('Name')
+      printCase3('Name', True)
     case "2":
-      printCase3('Total')
+      printCase3('Name', False)
     case "3":
-      printCase3('HP')
+      printCase3('Total', True)
     case "4":
-      printCase3('Attack')
+      printCase3('Total', False)
     case "5":
-      printCase3('Sp. Atk')
+      printCase3('HP', True)
+    case "6":
+      printCase3('HP', False)
+    case "7":
+      printCase3('Attack', True)
+    case "8":
+      printCase3('Attack', False)
+    case "9":
+      printCase3('Sp. Attack', True)
+    case "10":
+      printCase3('Sp. Attack', False)
 
 #remove info from 'faves' 
 def remove_from_faves(input_for_del):
@@ -178,79 +221,90 @@ def add_data(does_exist, check_dub):
     #append info
     faveList[index_of_user]['faves'].append(convertToDict[does_exist])
 
-#main loop
-loop_main = True
-while loop_main:
-  print(
-    '''
-    1. Display all data
-    2. Search for spacific data
-    3. Sort the data 
-    4. Add data to favourites list
-    5. Remove data from favourits list
-    6. Display favourites list
-    7. Save Data
-    8. Exit 
-    '''
-  )
 
-  #input for cases 
-  numPick = input("pick the number of your desired option: ")
-  match numPick:
-    #1. Display all data
-    case "1":
+def main():
+  #main loop
+  loop_main = True
+  while loop_main:
+    print(
+      '''
+      1. Display all data
+      2. Filter for spacific type
+      3. Sort the data 
+      4. Add data to favourites list
+      5. Remove data from favourits list
+      6. Display favourites list
+      7. Save Data
+      8. Exit 
+      '''
+    )
 
-      #use pandas to convert to string and print out (converted to string so the index can be set to false, this makes it so the index doesnt print out with the main information)
-      print(df.to_string(index=False))
-    
-    #2. Search for spacific type
-    case "2":
-      #gather user input
-      inputMon = input('what type is the pokemon you like to display?').title()
+    #input for cases 
+    numPick = input("pick the number of your desired option: ")
+    match numPick:
+      #1. Display all data
+      case "1":
+        #use pandas to convert to string and print out (converted to string so the index can be set to false, this makes it so the index doesnt print out with the main information)
+        print(df.to_string(index=False))
+      
+      #2. Filter for spacific type
+      case "2":
+        #gather user input
+        inputMon = input('what type is the pokemon you like to display?').title()
 
-      #set a condition to search by and search
-      condSearch(inputMon)
+        #set a condition to search by and search
+        condSearch(inputMon)
 
-    #3. Sort the data 
-    case "3":
-      #match statments that sort the data
-      sortDicts()
-    
-    #4. Add data to favourites list
-    case "4":
-      #gain user input
-      nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
+      #3. Sort the data 
+      case "3":
+        #match statments that sort the data
+        sortDicts()
+      
+      #4. Add data to favourites list
+      case "4":
+        #gain user input
+        nameOfMon = input('what is the name of the pokemon you wish to add to fave list').title()
 
-      #use the searchName() funtion to check if the user input exists in the dictionary and gather the index of the intended pokemon
-      find_name = searchName(convertToDict, nameOfMon, 'Name')
+        #use the searchName() funtion to check if the user input exists in the dictionary and gather the index of the intended pokemon
+        find_name = searchName(convertToDict, nameOfMon, 'Name')
 
-      #checks for duplicate values in users faveList
-      check_dupe = searchName(faveList[index_of_user]['faves'],nameOfMon,'Name')
+        #checks for duplicate values in users faveList
+        check_dupe = searchName(faveList[index_of_user]['faves'],nameOfMon,'Name')
 
-      #use find_name and check_dupe to make sure the input is an actual pokemon and that it isnt a duplicate
-      add_data(find_name, check_dupe)
+        #use find_name and check_dupe to make sure the input is an actual pokemon and that it isnt a duplicate
+        add_data(find_name, check_dupe)
 
-      print_fave()
-    
-    #5. Remove data from favourits list
-    case "5":
-      #user injput for what to remove
-      input_for_del = input("what is the name of the pokemon you wish to remove").title()
+        print_fave()
+      
+      #5. Remove data from favourits list
+      case "5":
+        #user injput for what to remove
+        input_for_del = input("what is the name of the pokemon you wish to remove").title()
 
-      #call function that removes intended pokemon
-      remove_from_faves(input_for_del)
-      print_fave()
+        #call function that removes intended pokemon
+        remove_from_faves(input_for_del)
+        print_fave()
 
-    #display favList
-    case "6":
-      print_fave()
+      #display favList
+      case "6":
+        print_fave()
 
-    #save data
-    case "7":
-      print('info saved')
-      saveFaves(faveList)   
+      #save data
+      case "7":
+        print('info saved')
+        saveFaves(faveList)   
 
-    #exit program
-    case "8":
-      print("PROGRAM END")
-      loop_main = False
+      #exit program
+      case "8":
+        print("PROGRAM END")
+        loop_main = False
+
+
+#user login/signup 
+user_info = user_account()
+
+#get index of user to use for other functions
+index_of_user = look_index()
+
+#main function with all of the cases 
+main()
