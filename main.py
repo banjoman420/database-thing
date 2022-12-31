@@ -156,23 +156,23 @@ def printCase3(searchBy, yes_or_no):
     print(convertToDict[item])
 
 def generate_sort_options():
-    sort_keys = ['Name', 'Total', 'HP', 'Attack', 'Sp. Attack']
-    options = []
-    for key in sort_keys:
-        options.append(f"{key} (ascending)")
-        options.append(f"{key} (decending)")
-    return options
+  sort_keys = ['Name', 'Total', 'HP', 'Attack', 'Sp. Attack']
+  options = []
+  for key in sort_keys:
+      options.append(f"{key} (ascending)")
+      options.append(f"{key} (decending)")
+  return options
 
 def sortDicts():
-    options = generate_sort_options()
-    for i, option in enumerate(options):
-        print(f"{i + 1}. {option}")
+  options = generate_sort_options()
+  for i, option in enumerate(options):
+      print(f"{i + 1}. {option}")
 
-    sort_pick = input("What would you like to sort by? ")
-    sort_pick = int(sort_pick) - 1
-    sort_key = options[sort_pick].split()[0]
-    ascending = options[sort_pick].endswith("(ascending)")
-    printCase3(sort_key, ascending)
+  sort_pick = input("What would you like to sort by? ")
+  sort_pick = int(sort_pick) - 1
+  sort_key = options[sort_pick].split()[0]
+  ascending = options[sort_pick].endswith("(ascending)")
+  printCase3(sort_key, ascending)
 
 #remove info from 'faves' 
 def remove_from_faves(input_for_del):
@@ -191,7 +191,6 @@ def add_data(does_exist, check_dub):
   else:
     #append info
     faveList[index_of_user]['faves'].append(convertToDict[does_exist])
-
 
 def main():
   #main loop
