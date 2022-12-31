@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 
 pd.set_option('display.max_rows', None)
-
 cols = [0,1,2,4,3,5,6,8,10]
 df = pd.read_excel("pokemonData.xlsx", usecols=cols)
 convertToDict = (df.to_dict('records'))
@@ -23,18 +22,6 @@ def saveFaves(fileToSave):
 
 faveList = loadFaves()
 
-#selection sort function that will sort the big dictionary
-# def selectionSort(anArray, whatToSearch):
-#   for fill_slot in range(len(anArray)):
-#       min_position = fill_slot
-
-#       for post_fill in range(fill_slot +1, len(anArray)):
-          
-#           if anArray[post_fill][whatToSearch] < anArray[min_position][whatToSearch]:
-#               min_position = post_fill
-
-#       anArray[min_position], anArray[fill_slot] = anArray[fill_slot], anArray[min_position]
-
 #search for name functon
 def searchName(list, name, inItem):
   for item in list:
@@ -42,11 +29,6 @@ def searchName(list, name, inItem):
           return list.index(item)
 
   return -1
-
-# def printCase3(searchBy, ascending=True):
-#   selectionSort(convertToDict, searchBy, ascending=True)
-#   for item in range(len(convertToDict)):
-#     print(convertToDict[item])
 
 def user_account():
   loop_creds = True
@@ -111,8 +93,6 @@ def login_func(username, password, list):
       }
       return dict
 
-# user_info = user_account()
-
 #get index of user to be able to use in other functions 
 def look_index():
   #get index of username since its unique
@@ -120,8 +100,6 @@ def look_index():
   #check if that username has the password that the user inputed
   if faveList[check_user]['password'] == user_info['password']:
     return check_user
-
-# index_of_user = look_index()
 
 #print faveList
 def print_fave():
@@ -134,21 +112,20 @@ def condSearch(poketype):
   print(df.loc[filt].to_string(index=False))
 
 def selectionSort(arr, key, ascending=True):
-
     #function to determain of acending or decending
     def comparator(x, y):
       return x < y if ascending else x > y
 
     for fill_slot in range(len(arr)):
-        # Set minimum position to current fill_slot
-        min_position = fill_slot
-        # Loop through list start at the element after the current fill_slot
-        for post_fill in range(fill_slot + 1, len(arr)):
-            # If the element at post_fill is less than (or greater than if ascending is False) the element at min_position, set min_position to post_fill
-            if comparator(arr[post_fill][key], arr[min_position][key]):
-                min_position = post_fill
-        # Swap the element at min_position with the element at fill_slot
-        arr[min_position], arr[fill_slot] = arr[fill_slot], arr[min_position]
+      # Set minimum position to current fill_slot
+      min_position = fill_slot
+      # Loop through list start at the element after the current fill_slot
+      for post_fill in range(fill_slot + 1, len(arr)):
+        # If the element at post_fill is less than (or greater than if ascending is False) the element at min_position, set min_position to post_fill
+        if comparator(arr[post_fill][key], arr[min_position][key]):
+          min_position = post_fill
+      # Swap the element at min_position with the element at fill_slot
+      arr[min_position], arr[fill_slot] = arr[fill_slot], arr[min_position]
 
 def printCase3(searchBy, yes_or_no):
   selectionSort(convertToDict, searchBy, yes_or_no)
@@ -159,14 +136,14 @@ def generate_sort_options():
   sort_keys = ['Name', 'Total', 'HP', 'Attack', 'Sp. Attack']
   options = []
   for key in sort_keys:
-      options.append(f"{key} (ascending)")
-      options.append(f"{key} (decending)")
+    options.append(f"{key} (ascending)")
+    options.append(f"{key} (decending)")
   return options
 
 def sortDicts():
   options = generate_sort_options()
   for i, option in enumerate(options):
-      print(f"{i + 1}. {option}")
+    print(f"{i + 1}. {option}")
 
   sort_pick = input("What would you like to sort by? ")
   sort_pick = int(sort_pick) - 1
@@ -269,6 +246,7 @@ def main():
         print("PROGRAM END")
         loop_main = False
 
+#*****calling everything for thing to start*****#
 
 #user login/signup 
 user_info = user_account()
