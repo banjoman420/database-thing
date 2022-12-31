@@ -135,15 +135,7 @@ def condSearch(poketype):
 
 def selectionSort(arr, key, ascending=True):
 
-    #Set the comparator function based on the value of ascending
-    #comparator is used to determain decending or acending
-    #lambda function is a small function in Python that is often used as a shorthand way of defining functions that are used only once
-    # if ascending:
-    #     # If ascending is True, set the comparator to return True if x is less than y
-    #     comparator = lambda x, y: x < y
-    # else:
-    #     # If ascending is False, set the comparator to return True if x is greater than y
-    #     comparator = lambda x, y: x > y
+    #function to determain of acending or decending
     def comparator(x, y):
       return x < y if ascending else x > y
 
@@ -163,45 +155,24 @@ def printCase3(searchBy, yes_or_no):
   for item in range(len(convertToDict)):
     print(convertToDict[item])
 
-def sortDicts():
-  print(
-    '''
-    1. Name (A-Z)
-    2. Name (Z-A)
-    3. Total stats (Lowest to Highest)
-    4. Total stats (Highest to Lowest)
-    5. HP (Lowest to Highest)
-    6. HP (Highest to Lowest)
-    7. Attack (Lowest to Highest)
-    8. Attack (Highest to Lowest)
-    9. Sp. Attack (Lowest to Highest)
-    10. Sp. Attack (Highest to Lowest)
-    '''
-  )
+def generate_sort_options():
+    sort_keys = ['Name', 'Total', 'HP', 'Attack', 'Sp. Attack']
+    options = []
+    for key in sort_keys:
+        options.append(f"{key} (ascending)")
+        options.append(f"{key} (decending)")
+    return options
 
-  #case statments for sorting information 
-  sortPick = input("what would u like to sort by")
-  match sortPick:
-    case "1":
-      printCase3('Name', True)
-    case "2":
-      printCase3('Name', False)
-    case "3":
-      printCase3('Total', True)
-    case "4":
-      printCase3('Total', False)
-    case "5":
-      printCase3('HP', True)
-    case "6":
-      printCase3('HP', False)
-    case "7":
-      printCase3('Attack', True)
-    case "8":
-      printCase3('Attack', False)
-    case "9":
-      printCase3('Sp. Attack', True)
-    case "10":
-      printCase3('Sp. Attack', False)
+def sortDicts():
+    options = generate_sort_options()
+    for i, option in enumerate(options):
+        print(f"{i + 1}. {option}")
+
+    sort_pick = input("What would you like to sort by? ")
+    sort_pick = int(sort_pick) - 1
+    sort_key = options[sort_pick].split()[0]
+    ascending = options[sort_pick].endswith("(ascending)")
+    printCase3(sort_key, ascending)
 
 #remove info from 'faves' 
 def remove_from_faves(input_for_del):
