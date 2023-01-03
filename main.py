@@ -2,6 +2,7 @@ import json
 import pandas as pd 
 import numpy as np
 
+#set get excel file, set display type, select cols to use, and convert the whole thing to a dictionary
 pd.set_option('display.max_rows', None)
 cols = [0,1,2,4,3,5,6,8,10]
 df = pd.read_excel("pokemonData.xlsx", usecols=cols)
@@ -20,7 +21,7 @@ def saveFaves(fileToSave):
   json.dump(fileToSave, file)
   file.close()
 
-faveList = loadFaves()
+# faveList = loadFaves()
 
 #search for name functon
 def searchName(list, name, inItem):
@@ -112,20 +113,20 @@ def condSearch(poketype):
   print(df.loc[filt].to_string(index=False))
 
 def selectionSort(arr, key, ascending=True):
-    #function to determain of acending or decending
-    def comparator(x, y):
-      return x < y if ascending else x > y
+  #function to determain of acending or decending
+  def comparator(x, y):
+    return x < y if ascending else x > y
 
-    for fill_slot in range(len(arr)):
-      # Set minimum position to current fill_slot
-      min_position = fill_slot
-      # Loop through list start at the element after the current fill_slot
-      for post_fill in range(fill_slot + 1, len(arr)):
-        # If the element at post_fill is less than (or greater than if ascending is False) the element at min_position, set min_position to post_fill
-        if comparator(arr[post_fill][key], arr[min_position][key]):
-          min_position = post_fill
-      # Swap the element at min_position with the element at fill_slot
-      arr[min_position], arr[fill_slot] = arr[fill_slot], arr[min_position]
+  for fill_slot in range(len(arr)):
+    # Set minimum position to current fill_slot
+    min_position = fill_slot
+    # Loop through list start at the element after the current fill_slot
+    for post_fill in range(fill_slot + 1, len(arr)):
+      # If the element at post_fill is less than (or greater than if ascending is False) the element at min_position, set min_position to post_fill
+      if comparator(arr[post_fill][key], arr[min_position][key]):
+        min_position = post_fill
+    # Swap the element at min_position with the element at fill_slot
+    arr[min_position], arr[fill_slot] = arr[fill_slot], arr[min_position]
 
 def printCase3(searchBy, yes_or_no):
   selectionSort(convertToDict, searchBy, yes_or_no)
@@ -133,7 +134,7 @@ def printCase3(searchBy, yes_or_no):
     print(convertToDict[item])
 
 def generate_sort_options():
-  sort_keys = ['Name', 'Total', 'HP', 'Attack', 'Sp. Attack']
+  sort_keys = ['Name', 'Total', 'HP', 'Attack', 'Sp. Attack', 'Speed']
   options = []
   for key in sort_keys:
     options.append(f"{key} (ascending)")
@@ -156,8 +157,8 @@ def remove_from_faves(input_for_del):
   for i, faves in enumerate(faveList[index_of_user]['faves']):
     if input_for_del in faves.values():
       faveList[index_of_user]['faves'].pop(i)
-    else:
-      print('Pokemon doesnt exist in list')
+  else:
+    print('Pokemon doesnt exist in list')
 
 def add_data(does_exist, check_dub):
   #if statments for if found or not found
@@ -244,6 +245,9 @@ def main():
         loop_main = False
 
 #*****calling everything for thing to start*****#
+
+#load big list of data 
+faveList = loadFaves()
 
 #user login/signup 
 user_info = user_account()
