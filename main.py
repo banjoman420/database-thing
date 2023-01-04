@@ -110,6 +110,7 @@ def print_fave():
 #search using pandas
 def condSearch(poketype):
   filt = (df['Type 1'] == poketype) | (df["Type 2"] == poketype)
+  #loc() is used to filter through the columns and seacrh for the given condition 
   print(df.loc[filt].to_string(index=False))
 
 def selectionSort(arr, key, ascending=True):
